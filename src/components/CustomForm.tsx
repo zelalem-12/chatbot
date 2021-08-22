@@ -46,7 +46,6 @@ const CustomForm: FC<MessageForm> = ({
         className={classes.sgerInput}
         label="Enter your message..."
         variant="outlined"
-        id="custom-css-outlined-input"
         type="text"
         value={message}
         onChange={onTypingMessage}

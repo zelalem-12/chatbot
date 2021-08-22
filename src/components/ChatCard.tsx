@@ -77,6 +77,10 @@ export const ChatCard: FC<Message> = ({
   const classes = useStyles();
   const messggingTime = new Date(timestamp);
   const messageSource = source.charAt(0).toUpperCase() + source.slice(1);
+  const messagingtMinute =
+    messggingTime.getMinutes() < 10
+      ? "0" + messggingTime.getMinutes()
+      : messggingTime.getMinutes();
   return (
     <Box className={classes.root}>
       <Tooltip arrow title={messageSource} placement="top">
@@ -92,7 +96,7 @@ export const ChatCard: FC<Message> = ({
         <Box className={classes.msgInfo}>
           <Box className={classes.source}>{messageSource}</Box>
           <Box className={classes.messagingTime}>
-            {messggingTime.getHours() + ":" + messggingTime.getMinutes()}
+            {messggingTime.getHours() + ":" + messagingtMinute}
           </Box>
         </Box>
         <Box className={classes.message}>{message}</Box>

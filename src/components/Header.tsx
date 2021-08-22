@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from "react";
+import { FC, ReactElement } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Box } from "@material-ui/core";
 const useStyles = makeStyles({

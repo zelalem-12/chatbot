@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { sendMeasage, messageSelector } from "./redux/store";
 import { Message } from "./types/Interface";
 import Header from "./components/Header";
-import { ChatContainer } from "./components/ChatContainer";
+import ChatContainer from "./components/ChatContainer";
 import CustomForm from "./components/CustomForm";
 
 import "./App.css";
@@ -45,9 +45,8 @@ const App: FC = (): ReactElement => {
   };
 
   return (
-    <div className="container">
+    <div className="App">
       <Header />
-
       <ChatContainer messages={messages} />
       <CustomForm
         message={newMessage}

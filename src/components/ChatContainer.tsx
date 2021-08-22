@@ -1,4 +1,4 @@
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useEffect, useRef } from "react";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { ChatCard } from "./ChatCard";
@@ -27,7 +27,13 @@ const useStyles = makeStyles({
   },
 });
 
-export const ChatContainer: FC<Messages> = ({ messages }): ReactElement => {
+const ChatContainer: FC<Messages> = ({ messages }): ReactElement => {
+  const messageRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    console.log({ messageRef });
+    messageRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   const classes = useStyles();
   return (
     <Box className={classes.root}>
@@ -41,6 +47,7 @@ export const ChatContainer: FC<Messages> = ({ messages }): ReactElement => {
           />
         );
       })}
+      <div ref={messageRef}></div>
     </Box>
   );
 };
