@@ -30,7 +30,6 @@ const useStyles = makeStyles({
 const ChatContainer: FC<Messages> = ({ messages }): ReactElement => {
   const messageRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    console.log({ messageRef });
     messageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 

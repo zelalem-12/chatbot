@@ -16,3 +16,7 @@ export interface MessageForm {
   onKeyEnterSendMessage: (event: KeyboardEvent<HTMLInputElement>) => void;
   onTypingMessage: (event: ChangeEvent<HTMLInputElement>) => void;
 }
+
+export interface Response {
+  text: string;
+}
