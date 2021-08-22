@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Box } from "@material-ui/core";
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
     padding: "10px",
     background: "#fff",
@@ -14,12 +14,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.5rem",
     fontWeight: 500,
   },
-}));
+});
 
 const Header: FC = (): ReactElement => {
   const classes = useStyles();
   return (
-    <AppBar className={classes.root} position="fixed">
+    <AppBar className={classes.root} position="sticky">
       <Box className={classes.title}>Chatbot</Box>
     </AppBar>
   );

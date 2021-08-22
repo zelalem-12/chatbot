@@ -9,6 +9,7 @@ const useStyles = makeStyles({
     width: "100%",
     height: "80vh",
     overflowY: "auto",
+    overflowX: "hidden",
     padding: "10px",
     backgroundColor: " #fcfcfe",
     backgroundImage: `

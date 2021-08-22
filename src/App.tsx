@@ -1,6 +1,4 @@
 import { FC, ReactElement, KeyboardEvent, ChangeEvent, useState } from "react";
-import { Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
 import { useSelector, useDispatch } from "react-redux";
 import { sendMeasage, messageSelector } from "./redux/store";
 import { Message } from "./types/Interface";
@@ -10,13 +8,7 @@ import CustomForm from "./components/CustomForm";
 
 import "./App.css";
 
-const useStyles = makeStyles({
-  chatBody: {
-    width: "100%",
-  },
-});
-
-export const App: FC = (): ReactElement => {
+const App: FC = (): ReactElement => {
   const [newMessage, setNewMessage] = useState<string>("");
   const messages: Message[] = useSelector(messageSelector);
   const dispatch = useDispatch();
@@ -52,19 +44,19 @@ export const App: FC = (): ReactElement => {
     }
   };
 
-  const classes = useStyles();
   return (
     <div className="container">
       <Header />
-      <Box className={classes.chatBody}>
-        <ChatContainer messages={messages} />
-        <CustomForm
-          message={newMessage}
-          onButtonSendMessage={onButtonSendMessage}
-          onKeyEnterSendMessage={onKeyEnterSendMessage}
-          onTypingMessage={onTypingMessage}
-        />
-      </Box>
+
+      <ChatContainer messages={messages} />
+      <CustomForm
+        message={newMessage}
+        onButtonSendMessage={onButtonSendMessage}
+        onKeyEnterSendMessage={onKeyEnterSendMessage}
+        onTypingMessage={onTypingMessage}
+      />
     </div>
   );
 };
+
+export default App;

@@ -2,12 +2,12 @@
   display: flex;
   flex-flow: column wrap;
   justify-content: space-between;
-  width: 100%;
-  margin: 25px 10px;
+  width: 150%;
+  margin: 0 auto;
   height: calc(100% - 50px);
   border: var(--border);
   border-radius: 5px;
   background: var(--msger-bg);
-  background-color: red;
   box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
+  margin-top: -50px;
 }

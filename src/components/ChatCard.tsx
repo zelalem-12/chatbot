@@ -70,7 +70,9 @@ export const ChatCard: FC<Message> = ({
     messagingTime: {
       fontSize: "0.85em",
     },
-    message: {},
+    message: {
+      fontStyle: "italic",
+    },
   });
   const classes = useStyles();
   const messggingTime = new Date(timestamp);

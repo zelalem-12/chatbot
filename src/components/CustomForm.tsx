@@ -3,7 +3,7 @@ import { Box, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { MessageForm } from "../types/Interface";
 
-const useStayle = makeStyles((theme) => ({
+const useStayle = makeStyles({
   root: {
     display: "flex",
     padding: "10px",
@@ -31,7 +31,7 @@ const useStayle = makeStyles((theme) => ({
       background: "rgb(42, 115, 63)",
     },
   },
-}));
+});
 
 const CustomForm: FC<MessageForm> = ({
   message,
@@ -57,7 +57,7 @@ const CustomForm: FC<MessageForm> = ({
         color="primary"
         className={classes.sendButton}
         onClick={onButtonSendMessage}
-        disabled={message ? true : false}
+        disabled={message ? false : true}
       >
         Send
       </Button>
