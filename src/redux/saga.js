@@ -14,22 +14,23 @@ async function connect() {
     userId: "user-29cfb0d6-6562-462e-912e-b129f55d84e7",
   });
   await client.connect();
-  const messages = ["Hi", "Hello", "How you doing ", "What are you doing?"];
-  for (let message of messages) {
-    client.sendMessage(message);
-  }
-
-  // client.sendMessage("hello there", { color: "green" });
-  // client.sendMessage("", { color: "green" });
-
+  // const messages = ["Hi", "Hello", "How you doing ", "What are you doing?"];
+  // for (let message of messages) {
+  //   client.sendMessage(message);
+  // }
   return client;
 }
 
 function* subscribe(client) {
   return eventChannel((emit) => {
     client.on("output", (output) => {
-      console.log({ ...output });
-      console.log("Text: " + output.text + "   Data: " + output.data);
+      console.log("Text: " + output.text);
+      const response = {
+        source: "bot",
+        message: output.text,
+        timestamp: new Date().toISOString(),
+      };
+      emit(receiveMessage(response));
     });
 
     client.on("typingStatus", (status) => {
@@ -49,22 +50,20 @@ function* subscribe(client) {
 }
 
 function* sendMessageSaga(client) {
-  const SEND_MESSAGE = "How you doing?";
-  const { message } = yield take(SEND_MESSAGE);
+  const {
+    payload: { message },
+  } = yield take(sendMeasage);
+  console.log({ message });
   client.sendMessage(message);
 }
 
 function* listener(client) {
   const channel = yield call(subscribe, client);
-  while (true) {
-    const action = yield take(channel);
-    yield put(action);
-  }
+  const action = yield take(channel);
+  yield put(action);
 }
 function* emitter(client) {
-  while (true) {
-    yield fork(sendMessageSaga, client);
-  }
+  yield fork(sendMessageSaga, client);
 }
 
 function* handleEvents(client) {

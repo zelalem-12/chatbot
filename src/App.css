@@ -1,11 +1,13 @@
 .container {
-  overflow: scroll;
   display: flex;
-  width: 50vw;
-  height: 84vh;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgb(250, 250, 250);
-  align-items: flex-end;
-  color: white;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  width: 100%;
+  margin: 25px 10px;
+  height: calc(100% - 50px);
+  border: var(--border);
+  border-radius: 5px;
+  background: var(--msger-bg);
+  background-color: red;
+  box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
 }

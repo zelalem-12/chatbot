@@ -1,5 +1,5 @@
-import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Messages, Message } from "../types/Interface";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { Messages } from "../types/Interface";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "./saga";
 
@@ -14,7 +14,7 @@ export const messageSlice = createSlice({
       state.messages = [
         ...state.messages,
         {
-          sender: action.payload.sender,
+          source: action.payload.source,
           message: action.payload.message,
           timestamp: action.payload.timestamp,
         },
@@ -24,7 +24,7 @@ export const messageSlice = createSlice({
       state.messages = [
         ...state.messages,
         {
-          sender: action.payload.sender,
+          source: action.payload.source,
           message: action.payload.message,
           timestamp: action.payload.timestamp,
         },

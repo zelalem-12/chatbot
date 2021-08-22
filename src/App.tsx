@@ -1,84 +1,49 @@
-import React, { FC, ReactElement, KeyboardEvent, useState } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { Box, Button, TextField } from "@material-ui/core";
-import { Message } from "./types/Interface";
+import { FC, ReactElement, KeyboardEvent, ChangeEvent, useState } from "react";
+import { Box } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import { useSelector, useDispatch } from "react-redux";
-import { sendMeasage, receiveMessage, messageSelector } from "./redux/store";
+import { sendMeasage, messageSelector } from "./redux/store";
+import { Message } from "./types/Interface";
+import Header from "./components/Header";
 import { ChatContainer } from "./components/ChatContainer";
+import CustomForm from "./components/CustomForm";
 
 import "./App.css";
 
-const CssTextField = withStyles({
-  root: {
-    "& label.Mui-focused": {
-      color: "green",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "green",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "red",
-      },
-      "&:hover fieldset": {
-        borderColor: "yellow",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "green",
-      },
-    },
-  },
-})(TextField);
-
-const useStayle = makeStyles((theme) => ({
-  messageContainer: {
-    height: "100%",
+const useStyles = makeStyles({
+  chatBody: {
     width: "100%",
   },
-  messagingForm: {
-    display: "flex",
-    alignItems: "center",
-    position: "absolute",
-    left: "25%",
-    top: "85%",
-    width: "50%",
-  },
-  sendButton: {
-    fontSize: "1.5rem",
-    fontWeight: 600,
-    width: "13%",
-    borderRadius: "10px",
-  },
-  margin: {
-    fontSize: "1.5rem",
-    fontWeight: 600,
-    width: "85%",
-    borderRadius: "10px",
-    marginRight: "2%",
-  },
-}));
+});
 
 export const App: FC = (): ReactElement => {
   const [newMessage, setNewMessage] = useState<string>("");
   const messages: Message[] = useSelector(messageSelector);
   const dispatch = useDispatch();
 
-  const onSendMessage = () => {
+  const onTypingMessage = (event: ChangeEvent<HTMLInputElement>): void => {
+    event.preventDefault();
+    const value = event.target.value || "";
+    setNewMessage(value);
+  };
+
+  const onButtonSendMessage = (): void => {
     dispatch(
       sendMeasage({
-        sender: "Bot",
+        source: "user",
         message: newMessage,
         timestamp: new Date().toISOString(),
       })
     );
     setNewMessage("");
   };
-
-  const onKeyEnterHandler = (event: KeyboardEvent<HTMLInputElement>): void => {
+  const onKeyEnterSendMessage = (
+    event: KeyboardEvent<HTMLInputElement>
+  ): void => {
     if (event.code === "Enter") {
       dispatch(
         sendMeasage({
-          sender: "User",
+          source: "user",
           message: newMessage,
           timestamp: new Date().toISOString(),
         })
@@ -86,38 +51,19 @@ export const App: FC = (): ReactElement => {
       setNewMessage("");
     }
   };
-  const buttonStatus: Boolean = newMessage ? true : false;
-  const classes = useStayle();
+
+  const classes = useStyles();
   return (
     <div className="container">
-      <Box className={classes.messageContainer}>
-        HTMLTextAreaElement
-        {messages.length ? (
-          <ChatContainer messages={messages} />
-        ) : (
-          <div>Start Chatting With Chat Box</div>
-        )}
-      </Box>
-      <Box className={classes.messagingForm}>
-        <CssTextField
-          className={classes.margin}
-          label="Message"
-          variant="outlined"
-          id="custom-css-outlined-input"
-          type="text"
-          value={newMessage}
-          onChange={(event) => setNewMessage(event.target.value)}
-          onKeyDown={onKeyEnterHandler}
+      <Header />
+      <Box className={classes.chatBody}>
+        <ChatContainer messages={messages} />
+        <CustomForm
+          message={newMessage}
+          onButtonSendMessage={onButtonSendMessage}
+          onKeyEnterSendMessage={onKeyEnterSendMessage}
+          onTypingMessage={onTypingMessage}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.sendButton}
-          onClick={onSendMessage}
-          disabled={!buttonStatus}
-        >
-          Send
-        </Button>
       </Box>
     </div>
   );

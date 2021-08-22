@@ -1,55 +1,99 @@
 import { FC, ReactElement } from "react";
-import { Avatar, Tooltip, Box } from "@material-ui/core";
+import { Tooltip, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Message } from "../types/Interface";
 
 export const ChatCard: FC<Message> = ({
-  sender,
+  source,
   message,
   timestamp,
 }): ReactElement => {
+  const rootStyle: any = {};
+  const bubbleStyle: any = {};
+  let avatarUrl: string;
+  if (source.toLowerCase() === "bot") {
+    rootStyle.borderBottomLeftRadius = 0;
+    avatarUrl = "url(https://image.flaticon.com/icons/svg/327/327779.svg)";
+    bubbleStyle.borderBottomLeftRadius = 0;
+  } else {
+    rootStyle.borderBottomRightRadius = 0;
+    rootStyle.flexDirection = "row-reverse";
+    rootStyle.color = "#000";
+    rootStyle.margin = "0 0 0 10px";
+    avatarUrl = "url(https://image.flaticon.com/icons/svg/145/145867.svg)";
+
+    bubbleStyle.borderBottomRightRadius = 0;
+    bubbleStyle.background = "var(--right-msg-bg)";
+    bubbleStyle.color = "#000";
+  }
+
   const useStyles = makeStyles({
     root: {
-      margin: "0.5rem",
-      color: "black",
-      width: "100%",
-      float: sender === "User" ? "right" : "left",
-    },
-    avatar: {
-      float: sender === "User" ? "right" : "left",
-      backgroundColor: sender === "User" ? "green" : "blue",
-      verticalAlign: "middle",
-    },
-    messageBox: {
-      width: "85%",
-      height: "60px",
-      borderRadius: "1.0rem",
-      padding: "0.3rem",
-      float: sender === "User" ? "right" : "left",
-      margin: sender === "User" ? "0 15px 0 0" : "0 0 0 15px",
-      backgroundColor: sender === "User" ? "#f2f2f2" : "#d3dbe8",
       display: "flex",
-      justifyContent: sender === "User" ? "flex-end" : "flex-start",
-      "& *": {
-        margin: "0.5rem",
+      alignItems: "flex-end",
+      marginBottom: "15px",
+      ...rootStyle,
+      "&:last-of-type": {
+        margin: 0,
       },
     },
+    avatar: {
+      width: "50px",
+      height: "50px",
+      marginRight: "10px",
+      background: "#ddd",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      borderRadius: "50%",
+      margin: "0 0 0 10px",
+    },
+    msgBubble: {
+      maxWidth: "450px",
+      padding: "15px",
+      borderRadius: "15px",
+      boxShadow: "0px 3px 7px #888888",
+      background: "var(--left-msg-bg)",
+      ...bubbleStyle,
+    },
+
+    msgInfo: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: "10px",
+    },
+    source: {
+      marginRight: "10px",
+      fontWeight: "bold",
+    },
+    messagingTime: {
+      fontSize: "0.85em",
+    },
+    message: {},
   });
   const classes = useStyles();
+  const messggingTime = new Date(timestamp);
+  const messageSource = source.charAt(0).toUpperCase() + source.slice(1);
   return (
     <Box className={classes.root}>
-      <Tooltip arrow title={`${sender}`}>
-        <Avatar className={classes.avatar}>
-          {sender && sender[0].toUpperCase()}
-        </Avatar>
+      <Tooltip arrow title={messageSource} placement="top">
+        <Box
+          className={classes.avatar}
+          style={{
+            backgroundImage: avatarUrl,
+          }}
+        />
       </Tooltip>
-      <Box className={classes.messageBox}>
-        <p>{message}</p>
-        <p>
-          {new Date(timestamp).getHours() +
-            ":" +
-            new Date(timestamp).getMinutes()}
-        </p>
+
+      <Box className={classes.msgBubble}>
+        <Box className={classes.msgInfo}>
+          <Box className={classes.source}>{messageSource}</Box>
+          <Box className={classes.messagingTime}>
+            {messggingTime.getHours() + ":" + messggingTime.getMinutes()}
+          </Box>
+        </Box>
+        <Box className={classes.message}>{message}</Box>
       </Box>
     </Box>
   );
